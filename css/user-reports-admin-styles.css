@@ -1,0 +1,20 @@
+#user-reports-panel tr.user-reports-comment-row.unapproved {
+    background-color: #FFFFE0;
+}
+
+
+#user-reports-panel tr.user-reports-comment-row th#blog {
+    width: 20%;
+}
+
+#user-reports-panel tr th#author {
+    width: 25%;
+}
+
+#user-reports-panel tr th#comment {
+    width: 35%;
+}
+
+#user-reports-panel tr th#post_title {
+    width: 20%;
+}

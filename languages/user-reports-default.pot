@@ -1,0 +1,267 @@
+# Translation of the WordPress plugin User Reports 1.0.0 by Paul Menard (Incsub).
+# Copyright (C) 2012 Paul Menard (Incsub)
+# This file is distributed under the same license as the User Reports package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: User Reports 1.0.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/user-reports\n"
+"POT-Creation-Date: 2012-07-04 08:00-0500\n"
+"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: lib/class-user-reports-comments-list-table.php:43
+#: lib/class-user-reports-comments-list-table.php:127
+#: lib/class-user-reports-posts-list-table.php:42
+#: lib/class-user-reports-posts-list-table.php:78
+msgid "view"
+msgstr ""
+
+#: lib/class-user-reports-comments-list-table.php:76
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#: lib/class-user-reports-comments-list-table.php:83
+msgid "Submitted on"
+msgstr ""
+
+#: lib/class-user-reports-comments-list-table.php:95
+msgid "reply"
+msgstr ""
+
+#: lib/class-user-reports-comments-list-table.php:183
+#: lib/class-user-reports-comments-list-table.php:186
+msgid "Anonymous"
+msgstr ""
+
+#: lib/class-user-reports-comments-list-table.php:283
+#: lib/class-user-reports-comments-list-table.php:289
+#: lib/class-user-reports-comments-list-table.php:296
+#: lib/class-user-reports-posts-list-table.php:168
+#: lib/class-user-reports-posts-list-table.php:175
+#: lib/class-user-reports-posts-list-table.php:182
+msgid "Blog"
+msgstr ""
+
+#: lib/class-user-reports-comments-list-table.php:284
+#: lib/class-user-reports-comments-list-table.php:290
+#: lib/class-user-reports-comments-list-table.php:298
+#: lib/class-user-reports-posts-list-table.php:169
+#: lib/class-user-reports-posts-list-table.php:176
+msgid "Author"
+msgstr ""
+
+#: lib/class-user-reports-comments-list-table.php:285
+#: lib/class-user-reports-comments-list-table.php:291
+#: lib/class-user-reports-comments-list-table.php:300
+msgid "Comment"
+msgstr ""
+
+#: lib/class-user-reports-comments-list-table.php:286
+#: lib/class-user-reports-comments-list-table.php:292
+msgid "In Response To"
+msgstr ""
+
+#: lib/class-user-reports-comments-list-table.php:297
+#: lib/class-user-reports-posts-list-table.php:183
+msgid "Blog Url"
+msgstr ""
+
+#: lib/class-user-reports-comments-list-table.php:299
+#: lib/class-user-reports-posts-list-table.php:185
+msgid "Author Login"
+msgstr ""
+
+#: lib/class-user-reports-comments-list-table.php:301
+msgid "Comment Url"
+msgstr ""
+
+#: lib/class-user-reports-comments-list-table.php:302
+msgid "Comment Date"
+msgstr ""
+
+#: lib/class-user-reports-comments-list-table.php:303
+#: lib/class-user-reports-posts-list-table.php:170
+#: lib/class-user-reports-posts-list-table.php:177
+#: lib/class-user-reports-posts-list-table.php:186
+msgid "Post Title"
+msgstr ""
+
+#: lib/class-user-reports-comments-list-table.php:304
+#: lib/class-user-reports-posts-list-table.php:187
+msgid "Post Url"
+msgstr ""
+
+#: lib/class-user-reports-posts-list-table.php:127 user-reports.php:142
+#: user-reports.php:145
+msgid "Reports"
+msgstr ""
+
+#: lib/class-user-reports-posts-list-table.php:172
+#: lib/class-user-reports-posts-list-table.php:178
+#: lib/class-user-reports-posts-list-table.php:188 user-reports.php:346
+msgid "Date"
+msgstr ""
+
+#: lib/class-user-reports-posts-list-table.php:184
+msgid "Author Name"
+msgstr ""
+
+#. #-#-#-#-#  user-reports.pot (User Reports 1.0.0)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: user-reports.php:80
+msgid "User Reports"
+msgstr ""
+
+#: user-reports.php:166 user-reports.php:173
+msgctxt "page label"
+msgid "Reports"
+msgstr ""
+
+#: user-reports.php:167 user-reports.php:174
+msgctxt "menu label"
+msgid "Reports"
+msgstr ""
+
+#: user-reports.php:245
+msgid "Cheatin&#8217; uh?"
+msgstr ""
+
+#: user-reports.php:341
+msgid ""
+"The User Reports plugins lets you build reports of the activity of your "
+"users."
+msgstr ""
+
+#: user-reports.php:343 user-reports.php:675
+msgid "Report Type"
+msgstr ""
+
+#: user-reports.php:343
+msgid ""
+"From the Report main screen you can select the type or report: Posts or "
+"comments"
+msgstr ""
+
+#: user-reports.php:344 user-reports.php:731
+msgid "Blogs"
+msgstr ""
+
+#: user-reports.php:344
+msgid ""
+"Select which blog to report on. Or you can generate a report for all Blogs"
+msgstr ""
+
+#: user-reports.php:345 user-reports.php:763 user-reports.php:788
+msgid "Users"
+msgstr ""
+
+#: user-reports.php:345
+msgid ""
+"Select the User from the dropdown. If you are viewing reports from the "
+"network admin you can enter the username directly or select the user from "
+"the Users listing page first."
+msgstr ""
+
+#: user-reports.php:346
+msgid ""
+"Select a date range for your report. Note you will be limited to 90 days "
+"maximum between the start and finish dates."
+msgstr ""
+
+#: user-reports.php:349
+msgid "Export"
+msgstr ""
+
+#: user-reports.php:349
+msgid ""
+"Below the report table you can optionally select to export the report to PDF "
+"or CSV data."
+msgstr ""
+
+#: user-reports.php:356
+msgid "Overview"
+msgstr ""
+
+#: user-reports.php:416
+msgid "per Page"
+msgstr ""
+
+#: user-reports.php:434
+msgctxt "User Reports New Page Title"
+msgid "User Reports"
+msgstr ""
+
+#: user-reports.php:438
+msgid "The User Reports plugin required both"
+msgstr ""
+
+#: user-reports.php:438
+msgid "Post Indexer"
+msgstr ""
+
+#: user-reports.php:438
+msgid "Comment Indexer"
+msgstr ""
+
+#: user-reports.php:438
+msgid "plugins to create the reports."
+msgstr ""
+
+#: user-reports.php:442
+msgctxt "User Reports page description"
+msgid ""
+"To create a report, select the report type, blogs, users, and date range "
+"below."
+msgstr ""
+
+#: user-reports.php:464
+msgid "Download PDF"
+msgstr ""
+
+#: user-reports.php:466
+msgid "Download CSV"
+msgstr ""
+
+#: user-reports.php:534
+msgid "Unknown user login:"
+msgstr ""
+
+#: user-reports.php:658
+msgid "Create"
+msgstr ""
+
+#: user-reports.php:681
+msgid "Post"
+msgstr ""
+
+#: user-reports.php:684
+msgid "Comments"
+msgstr ""
+
+#: user-reports.php:718 user-reports.php:725
+msgid "All Blogs"
+msgstr ""
+
+#: user-reports.php:726
+msgid "This Blog Only"
+msgstr ""
+
+#: user-reports.php:765
+msgid "All Users"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Paul Menard (Incsub)"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://premium.wpmudev.org/"
+msgstr ""

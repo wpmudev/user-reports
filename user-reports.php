@@ -6,7 +6,7 @@ Description:
 Author: Paul Menard (Incsub)
 Version: 1.0.0
 Author URI: http://premium.wpmudev.org/
-WDP ID: 
+WDP ID: 679162
 Text Domain: user-reports
 Domain Path: languages
 
@@ -32,7 +32,7 @@ if (!defined('USER_REPORTS_I18N_DOMAIN'))
 
 require_once( dirname(__FILE__) . '/lib/class-user-reports-posts-list-table.php');
 require_once( dirname(__FILE__) . '/lib/class-user-reports-comments-list-table.php');
-require_once( dirname(__FILE__) . '/lib/class-user-reports-logins-list-table.php');
+//require_once( dirname(__FILE__) . '/lib/class-user-reports-logins-list-table.php');
 
 class UserReports {
 		

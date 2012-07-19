@@ -32,7 +32,8 @@ if (!defined('USER_REPORTS_I18N_DOMAIN'))
 
 require_once( dirname(__FILE__) . '/lib/class-user-reports-posts-list-table.php');
 require_once( dirname(__FILE__) . '/lib/class-user-reports-comments-list-table.php');
-//require_once( dirname(__FILE__) . '/lib/class-user-reports-logins-list-table.php');
+
+include_once( dirname(__FILE__) . '/lib/dash-notice/wpmudev-dash-notification.php');
 
 class UserReports {
 		

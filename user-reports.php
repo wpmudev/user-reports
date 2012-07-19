@@ -535,17 +535,17 @@ class UserReports {
 					$this->_admin_header_error = __("Unknown user login:", USER_REPORTS_I18N_DOMAIN) ." ". esc_attr($_GET['user_login']); 
 					$userdata = wp_get_current_user();
 					//echo "userdata<pre>"; print_r($userdata); echo "</pre>";
-					if (($userdata) && (intval($userdata->data->ID))) {
-						$this->_filters['user_id'] = $userdata->data->ID;
-						$this->_filters['user_login'] = $userdata->data->user_login;
+					if (($userdata) && (intval($userdata->ID))) {
+						$this->_filters['user_id'] = $userdata->ID;
+						$this->_filters['user_login'] = $userdata->user_login;
 					}					
 				}
 			} else {
 				$userdata = wp_get_current_user();
 				//echo "userdata<pre>"; print_r($userdata); echo "</pre>";
-				if (($userdata) && (intval($userdata->data->ID))) {
-					$this->_filters['user_id'] = $userdata->data->ID;
-					$this->_filters['user_login'] = $userdata->data->user_login;
+				if (($userdata) && (intval($userdata->ID))) {
+					$this->_filters['user_id'] = $userdata->ID;
+					$this->_filters['user_login'] = $userdata->user_login;
 				}
 			}
 			

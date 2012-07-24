@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: User Reports
-Plugin URI: 
+Plugin URI: http://premium.wpmudev.org/project/user-reports
 Description: 
 Author: Paul Menard (Incsub)
 Version: 1.0.0

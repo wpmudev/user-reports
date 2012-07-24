@@ -2,7 +2,7 @@
 /*
 Plugin Name: User Reports
 Plugin URI: http://premium.wpmudev.org/project/user-reports
-Description: 
+Description: A report tool to show user Post and Comment activity for a single site or across a network. Uses data collected by Post Indexer and Comment Indexer plugins.
 Author: Paul Menard (Incsub)
 Version: 1.0.0
 Author URI: http://premium.wpmudev.org/

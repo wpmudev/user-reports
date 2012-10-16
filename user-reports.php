@@ -4,7 +4,7 @@ Plugin Name: User Reports
 Plugin URI: http://premium.wpmudev.org/project/user-reports
 Description: A report tool to show user Post and Comment activity for a single site or across a network. Uses data collected by Post Indexer and Comment Indexer plugins.
 Author: Paul Menard (Incsub)
-Version: 1.0.0
+Version: 1.0.1
 Author URI: http://premium.wpmudev.org/
 WDP ID: 679162
 Text Domain: user-reports
@@ -98,7 +98,7 @@ class UserReports {
 		add_action( 'admin_menu', 			array(&$this,'user_reports_admin_menu_proc') );	
 		add_action( 'user_admin_menu', 		array(&$this,'user_reports_admin_menu_proc') );	
 		add_action( 'network_admin_menu', 	array(&$this,'user_reports_admin_menu_proc') );			
-		add_action( 'wp_login', 			array(&$this,'user_reports_wp_login_proc'), 1, 2 );
+		//add_action( 'wp_login', 			array(&$this,'user_reports_wp_login_proc') );
 
 		/* Add our 'Reports' to the User listing rows */
 		add_filter( 'user_row_actions', array(&$this,'user_reports_user_row_actions_proc'), 10, 2);

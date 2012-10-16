@@ -1,6 +1,10 @@
 Plugin Name: User Reports
 Author: Paul Menard (Incsub)
 
+1.0.1 - 2012-10-16
+----------------------------------------------------------------------
+- Corrected Warning on user login tracking when user registers http://premium.wpmudev.org/forums/topic/error-after-register#post-290594
+
 1.0.0 - 2012-07-04
 ----------------------------------------------------------------------
 - Initial stable release

@@ -1,6 +1,12 @@
 Plugin Name: User Reports
 Author: Paul Menard (Incsub)
 
+1.0.2 - 2012-11-13
+----------------------------------------------------------------------
+- Added support for upcoming Post Indexer 3
+- Modified reporting to allow install on single WordPress installation or on Multisite where Post Indexer and Comment Indexer plugins are not installed. In those cases User Reports will use local blog tables.
+- When using local blog tables all post types are supported not just Posts. 
+
 1.0.1 - 2012-10-16
 ----------------------------------------------------------------------
 - Corrected Warning on user login tracking when user registers http://premium.wpmudev.org/forums/topic/error-after-register#post-290594

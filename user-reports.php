@@ -33,7 +33,7 @@ if (!defined('USER_REPORTS_I18N_DOMAIN'))
 require_once( dirname(__FILE__) . '/lib/class-user-reports-posts-list-table.php');
 require_once( dirname(__FILE__) . '/lib/class-user-reports-comments-list-table.php');
 
-include_once( dirname(__FILE__) . '/lib/dash-notice/wpmudev-dash-notification.php');
+include_once( dirname(__FILE__) . '/lib/dash-notices/wpmudev-dash-notification.php');
 
 class UserReports {
 		
@@ -341,8 +341,8 @@ class UserReports {
 		$screen_help_text = array();
 		$screen_help_text['user-reports-help-overview'] = '<p>'. __('The User Reports plugins lets you build reports of the activity of your users.', USER_REPORTS_I18N_DOMAIN) .'</p>';
 		$screen_help_text['user-reports-help-overview'] .= '<ul>';
-		$screen_help_text['user-reports-help-overview'] .= '<li><strong>' . __('Report Type', USER_REPORTS_I18N_DOMAIN) .'</strong> - '. __('From the Report main screen you can select the type or report: Posts or comments', USER_REPORTS_I18N_DOMAIN) .'</li>';
-		$screen_help_text['user-reports-help-overview'] .= '<li><strong>' . __('Blogs', USER_REPORTS_I18N_DOMAIN) .'</strong> - '. __('Select which blog to report on. Or you can generate a report for all Blogs', USER_REPORTS_I18N_DOMAIN) .'</li>';
+		$screen_help_text['user-reports-help-overview'] .= '<li><strong>' . __('Report Type', USER_REPORTS_I18N_DOMAIN) .'</strong> - '. __('From the Report main screen you can select the type or report: Posts or Comments', USER_REPORTS_I18N_DOMAIN) .'</li>';
+		$screen_help_text['user-reports-help-overview'] .= '<li><strong>' . __('Blogs', USER_REPORTS_I18N_DOMAIN) .'</strong> - '. __('Select which blog to report on. Or you can generate a report for all Blogs. (Multisite SuperAdmin only)', USER_REPORTS_I18N_DOMAIN) .'</li>';
 		$screen_help_text['user-reports-help-overview'] .= '<li><strong>' . __('Users', USER_REPORTS_I18N_DOMAIN) .'</strong> - '. __('Select the User from the dropdown. If you are viewing reports from the network admin you can enter the username directly or select the user from the Users listing page first.', USER_REPORTS_I18N_DOMAIN) .'</li>';
 		$screen_help_text['user-reports-help-overview'] .= '<li><strong>' . __('Date', USER_REPORTS_I18N_DOMAIN) .'</strong> - '. __('Select a date range for your report. Note you will be limited to 90 days maximum between the start and finish dates.', USER_REPORTS_I18N_DOMAIN) .'</li>';
 
@@ -433,12 +433,11 @@ class UserReports {
 		<div id="user-reports-panel" class="wrap user-reports-wrap">
 			<?php screen_icon(); ?>
 			<h2><?php _ex("User Reports", "User Reports New Page Title", USER_REPORTS_I18N_DOMAIN); ?></h2>
+
 			<?php
-			
-				if ((!function_exists('comment_indexer_comment_insert_update')) && (!function_exists('post_indexer_post_insert_update'))) {
-					?><p><?php echo  __('The User Reports plugin required both', USER_REPORTS_I18N_DOMAIN) .' <a target="_blank" href="http://premium.wpmudev.org/project/post-indexer/">'. __('Post Indexer', USER_REPORTS_I18N_DOMAIN) . '</a> and <a target="_blank" href="http://premium.wpmudev.org/project/comment-indexer/">'. __('Comment Indexer', USER_REPORTS_I18N_DOMAIN) .'</a> '. __('plugins to create the reports.', USER_REPORTS_I18N_DOMAIN); ?></p><?php
+				if ( (is_multisite()) && (is_network_admin()) && (!$this->has_post_indexer_plugin()) ) {
+					?><p><?php echo  __('For Network level reporting User Reports requires ', USER_REPORTS_I18N_DOMAIN) .' <a target="_blank" href="http://premium.wpmudev.org/project/post-indexer/">'. __('Post Indexer', USER_REPORTS_I18N_DOMAIN) . '</a> and <a target="_blank" href="http://premium.wpmudev.org/project/comment-indexer/">'. __('Comment Indexer', USER_REPORTS_I18N_DOMAIN) .'</a> '. __('plugins to be installed. User Report can be used at the Blog level where it will use local Posts and Comments data.', USER_REPORTS_I18N_DOMAIN); ?></p><?php
 				} else {
-				
 					?>
 					<p><?php _ex("To create a report, select the report type, blogs, users, and date range below.", 
 						'User Reports page description', USER_REPORTS_I18N_DOMAIN); ?></p>
@@ -446,7 +445,7 @@ class UserReports {
 					<?php
 						$this->user_reports_table->prepare_items($this->_filters);
 						$this->user_reports_table->display();
-								
+						
 						$siteurl = get_option('siteurl');
 						$href_str = $siteurl ."/wp-admin/users.php?page=user-reports";
 						if (isset($_GET['type']))
@@ -489,22 +488,28 @@ class UserReports {
 		if (isset($_GET['type'])) {
 			$this->_filters['type'] = esc_attr($_GET['type']);
 		} else {
-			$this->_filters['type'] = 'posts';
+			$this->_filters['type'] = 'post';
 		}
 		
 		// Validate and Set the Blog selection	
-		if (is_network_admin()) {
-			$this->_filters['blog_id'] = 0;
-		} else {	
-			if (isset($_GET['blog_id']))	{
-				$this->_filters['blog_id'] = intval($_GET['blog_id']);
-				if (($this->_filters['blog_id'] != 0) && ($this->_filters['blog_id'] != $wpdb->blogid)) {
-					$this->_filters['blog_id'] = $wpdb->blogid;				
+		if (is_multisite()) {
+			if (is_network_admin()) {
+				$this->_filters['blog_id'] = 0;
+			} else {	
+				if (isset($_GET['blog_id']))	{
+					$this->_filters['blog_id'] = intval($_GET['blog_id']);
+					if (($this->_filters['blog_id'] != 0) && ($this->_filters['blog_id'] != $wpdb->blogid)) {
+						$this->_filters['blog_id'] = $wpdb->blogid;				
+					}
+				} else {
+					$this->_filters['blog_id'] = $wpdb->blogid;
 				}
-			} else {
-				$this->_filters['blog_id'] = $wpdb->blogid;
 			}
+		} else {
+			$this->_filters['blog_id'] = $wpdb->blogid;
 		}
+		
+		
 		// Validate and Set the User selection
 		
 		// First we need to get a list of all User Ids for the current blog. 
@@ -525,43 +530,54 @@ class UserReports {
 			}
 		}
 		
-		if (is_network_admin()) {
-			if (isset($_GET['user_login'])) {
-				$userdata = get_user_by('login', esc_attr($_GET['user_login']));
-				if (($userdata) && (intval($userdata->ID))) {
-					$this->_filters['user_id'] = $userdata->ID;
-					$this->_filters['user_login'] = $userdata->user_login;
+		if (is_multisite()) {
+			if (is_network_admin()) {
+				if (isset($_GET['user_login'])) {
+					$userdata = get_user_by('login', esc_attr($_GET['user_login']));
+					if (($userdata) && (intval($userdata->ID))) {
+						$this->_filters['user_id'] = $userdata->ID;
+						$this->_filters['user_login'] = $userdata->user_login;
+					} else {
+						$this->_admin_header_error = __("Unknown user login:", USER_REPORTS_I18N_DOMAIN) ." ". esc_attr($_GET['user_login']); 
+						$userdata = wp_get_current_user();
+						//echo "userdata<pre>"; print_r($userdata); echo "</pre>";
+						if (($userdata) && (intval($userdata->ID))) {
+							$this->_filters['user_id'] = $userdata->ID;
+							$this->_filters['user_login'] = $userdata->user_login;
+						}					
+					}
 				} else {
-					$this->_admin_header_error = __("Unknown user login:", USER_REPORTS_I18N_DOMAIN) ." ". esc_attr($_GET['user_login']); 
 					$userdata = wp_get_current_user();
 					//echo "userdata<pre>"; print_r($userdata); echo "</pre>";
 					if (($userdata) && (intval($userdata->ID))) {
 						$this->_filters['user_id'] = $userdata->ID;
 						$this->_filters['user_login'] = $userdata->user_login;
-					}					
+					}
 				}
+			
 			} else {
-				$userdata = wp_get_current_user();
-				//echo "userdata<pre>"; print_r($userdata); echo "</pre>";
-				if (($userdata) && (intval($userdata->ID))) {
-					$this->_filters['user_id'] = $userdata->ID;
-					$this->_filters['user_login'] = $userdata->user_login;
+		
+				if (isset($_GET['user_id'])) {
+					$this->_filters['user_id'] = intval($_GET['user_id']);
+					if (($this->_filters['user_id'] != 0) && (array_search($this->_filters['user_id'], $this->_filters['blog_users_ids']) === false)) {
+						$this->_filters['user_id'] = get_current_user_id();				
+					}
+				} else {
+					if (!is_super_admin()) {
+						$this->_filters['user_id'] = get_current_user_id();
+					} else {
+						$this->_filters['user_id'] = 0;
+					}
 				}
 			}
-			
 		} else {
-		
 			if (isset($_GET['user_id'])) {
 				$this->_filters['user_id'] = intval($_GET['user_id']);
 				if (($this->_filters['user_id'] != 0) && (array_search($this->_filters['user_id'], $this->_filters['blog_users_ids']) === false)) {
 					$this->_filters['user_id'] = get_current_user_id();				
 				}
 			} else {
-				if (!is_super_admin()) {
-					$this->_filters['user_id'] = get_current_user_id();
-				} else {
-					$this->_filters['user_id'] = 0;
-				}
+				$this->_filters['user_id'] = 0;
 			}
 		}
 		
@@ -672,19 +688,35 @@ class UserReports {
 	 * @return none
 	 */
 	function user_reports_show_filter_form_types() {
-		?>
-		<label for="user-reports-filter-types"><?php _e('Report Type', USER_REPORTS_I18N_DOMAIN); ?></label>: 
-		<select id="user-reports-filter-types" name="type">			
-			<?php
-				$content_types = array();
+
+		$content_types = array();
 				
-				if (function_exists('post_indexer_post_insert_update'))
-					$content_types['posts'] 	= 	__('Post', USER_REPORTS_I18N_DOMAIN);
+		if ($this->has_post_indexer_plugin()) {				
+			$content_types['post'] 		= 	__('Post', USER_REPORTS_I18N_DOMAIN);
+		} else {
+			if ( (is_multisite()) && (is_network_admin()) ) {
+			} else {
+				foreach ((array) get_post_types( array( 'show_ui' => true ), 'name' ) as $post_type => $details) {
+					$content_types[$post_type] = $details->labels->name;
+				}					
+			}
+		}
 
-				if (function_exists('comment_indexer_comment_insert_update')) 
-					$content_types['comments']	=	__('Comments', USER_REPORTS_I18N_DOMAIN);
+		if ($this->has_post_indexer_plugin()) {
+			$content_types['comments']	=	__('Comments', USER_REPORTS_I18N_DOMAIN);							
+		} else {
+			if ( (is_multisite()) && (is_network_admin()) ) {
+			} else {
+				$content_types['comments']	=	__('Comments', USER_REPORTS_I18N_DOMAIN);				
+			}
+		}
 
-				if (($content_types) && (count($content_types))) {
+		if (($content_types) && (count($content_types))) {
+			?>
+			<label for="user-reports-filter-types"><?php _e('Report Type', USER_REPORTS_I18N_DOMAIN); ?></label>: 
+			<select id="user-reports-filter-types" name="type">			
+				<?php
+
 					foreach($content_types as $type => $label) {
 
 						$selected = '';
@@ -693,10 +725,10 @@ class UserReports {
 				
 						?><option <?php echo $selected; ?> value="<?php echo $type ?>"><?php echo $label ?></option><?php
 					}
-				}
-			?>
-		</select>
-		<?php
+				?>
+			</select>
+			<?php
+		}
 	}
 
 
@@ -713,35 +745,37 @@ class UserReports {
 
 		global $wpdb;
 		
-		if (is_network_admin()) {
+		if ((is_multisite()) && ($this->has_post_indexer_plugin())) {
+			if (is_network_admin()) {
 
-			$blogs = array(
-				'0'							=>	__('All Blogs', USER_REPORTS_I18N_DOMAIN)
-			);
-			
-		} else {
-			$current_blog = get_blog_details($wpdb->blogid);
-			
-			$blogs = array(
-				'0'							=>	__('All Blogs', USER_REPORTS_I18N_DOMAIN),
-				$current_blog->blog_id		=>	__('This Blog Only', USER_REPORTS_I18N_DOMAIN)
-			);			
-		}
-
-		?>
-		<label for="user-reports-filter-blogs"><?php _e('Blogs', USER_REPORTS_I18N_DOMAIN); ?></label>: 
-		<select id="user-reports-filter-blogs" name="blog_id">
-		<?php
-			foreach($blogs as $blog_id => $blog_name) {
-				$selected = '';
-				if (intval($blog_id) == intval($this->_filters['blog_id']))
-					$selected = ' selected="selected" ';
-													
-				?><option <?php echo $selected; ?> value="<?php echo $blog_id ?>"><?php echo $blog_name ?></option><?php
+				$blogs = array(
+					'0'							=>	__('All Blogs', USER_REPORTS_I18N_DOMAIN)
+				);
+		
+			} else {
+				$current_blog = get_blog_details($wpdb->blogid);
+		
+				$blogs = array(
+					'0'							=>	__('All Blogs', USER_REPORTS_I18N_DOMAIN),
+					$current_blog->blog_id		=>	__('This Blog Only', USER_REPORTS_I18N_DOMAIN)
+				);			
 			}
-		?>
-		</select>
-		<?php
+
+			?>
+			<label for="user-reports-filter-blogs"><?php _e('Blogs', USER_REPORTS_I18N_DOMAIN); ?></label>: 
+			<select id="user-reports-filter-blogs" name="blog_id">
+			<?php
+				foreach($blogs as $blog_id => $blog_name) {
+					$selected = '';
+					if (intval($blog_id) == intval($this->_filters['blog_id']))
+						$selected = ' selected="selected" ';
+												
+					?><option <?php echo $selected; ?> value="<?php echo $blog_id ?>"><?php echo $blog_name ?></option><?php
+				}
+			?>
+			</select>
+			<?php
+		}
 	} 
 	
 
@@ -824,6 +858,7 @@ class UserReports {
 	 * @param none
 	 * @return array of blog information
 	 */
+	/*
 	function user_report_get_blogs() {
 
 		global $wpdb;
@@ -837,7 +872,7 @@ class UserReports {
 			return $blogs;		
 		}
 	}
-
+	*/
 
 	/**
 	 * This function build an array of all users for the site and adds the super admins to the returned array
@@ -849,7 +884,6 @@ class UserReports {
 	 * @return none
 	 */
 	function user_reports_get_users($blog_id='') {
-				
 		$users_all = array();
 			
 		$user_args = array(
@@ -889,6 +923,45 @@ class UserReports {
 		}
 
 		return $comments;
+	}
+
+	/**
+	 * This utility function checks if the Post Indexer plugin is installed. 
+	 *
+	 * @since 1.0.2
+	 * @see 
+	 *
+	 * @param none
+	 * @return true if Post Indexer plugin is installed. false is not
+	 */
+
+	function has_post_indexer_plugin() {
+		global $post_indexer_current_version;
+		
+		if ((isset($post_indexer_current_version)) && (!empty($post_indexer_current_version))) {
+			return 2;
+		}
+
+		else if (class_exists('postindexermodel')) {
+			return 3;
+		}
+	
+		return false;
+	}		
+	/**
+	 * This utility function checks if the Comment Indexer plugin is installed. 
+	 *
+	 * @since 1.0.2
+	 * @see 
+	 *
+	 * @param none
+	 * @return true if Comment Indexer plugin is installed. false is not
+	 */
+	function has_comment_indexer_plugin() {
+		if (function_exists('comment_indexer_comment_insert_update'))
+			return true;
+
+		return false;	
 	}
 	
 }

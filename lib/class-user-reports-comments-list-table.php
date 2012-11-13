@@ -30,7 +30,16 @@ class User_Reports_Comments_List_Table extends WP_List_Table {
 
 		global $current_blog;
 
-		$blog = get_blog_details($item->blog_id);
+		if (is_multisite()) {
+			$blog = get_blog_details($item->blog_id);
+			if ($blog) {
+				$siteurl = $blog->siteurl;	
+				$blogname = $blog->blogname;	
+			}	
+		} else {
+			$siteurl = get_option('siteurl');
+			$blogname = get_option('blogname');
+		}
 
 		if (!isset($this->filters['doing_reports'])) {
 
@@ -69,6 +78,8 @@ class User_Reports_Comments_List_Table extends WP_List_Table {
 			else
 				$user_can = true;
 		}
+		
+		//echo "comment_date_stamp=[". $item->comment_date_stamp ."]<br />";
 		if (!isset($this->filters['doing_reports'])) {
 		
 			$ptime = date( 'G', strtotime( $item->comment_date_stamp ) );
@@ -89,9 +100,19 @@ class User_Reports_Comments_List_Table extends WP_List_Table {
 		
 			if ( $user_can ) { 
 			
-				$blog = get_blog_details($item->blog_id);
+				if (is_multisite()) {
+					$blog = get_blog_details($item->blog_id);
+					if ($blog) {
+						$siteurl = $blog->siteurl;	
+						$blogname = $blog->blogname;	
+					}	
+				} else {
+					$siteurl = get_option('siteurl');
+					$blogname = get_option('blogname');
+				}
+				
 				$actions = array();
-				$actions['reply'] = '<a target="_blank" href="'. $blog->siteurl .'/wp-admin/edit-comments.php?comment_reply='. $item->comment_id .'">'
+				$actions['reply'] = '<a target="_blank" href="'. $siteurl .'/wp-admin/edit-comments.php?comment_reply='. $item->comment_id .'">'
 					. __('reply', USER_REPORTS_I18N_DOMAIN) .'</a>';
 			
 				$output .= sprintf('%1$s',
@@ -116,7 +137,16 @@ class User_Reports_Comments_List_Table extends WP_List_Table {
 	
     function column_blog($item){
 
-		$blog = get_blog_details($item->blog_id);
+		if (is_multisite()) {
+			$blog = get_blog_details($item->blog_id);
+			if ($blog) {
+				$siteurl = $blog->siteurl;	
+				$blogname = $blog->blogname;	
+			}	
+		} else {
+			$siteurl = get_option('siteurl');
+			$blogname = get_option('blogname');
+		}
 
 		if (!isset($this->filters['doing_reports'])) {
 
@@ -124,24 +154,31 @@ class User_Reports_Comments_List_Table extends WP_List_Table {
 	        $actions = array();
 			if (!isset($this->filters['doing_reports'])) {
 
-				$actions['view']	= '<a target="_blank" href="'. $blog->siteurl .'">'. __('view', USER_REPORTS_I18N_DOMAIN) .'</a>';
+				$actions['view']	= '<a target="_blank" href="'. $siteurl .'">'. __('view', USER_REPORTS_I18N_DOMAIN) .'</a>';
 			}
 			
 	        //Return the title contents
 	        return sprintf('%1$s %2$s',
-	            '<a href="'. $blog->siteurl .'">'. $blog->blogname .'</a>',
+	            '<a href="'. $siteurl .'">'. $blogname .'</a>',
 				$this->row_actions($actions)
 	        );
 		} else if ($this->filters['doing_reports'] == "pdf") {
-			return '<a href="'. $blog->siteurl .'">'. $blog->blogname .'</a>';
+			return '<a href="'. $blog->siteurl .'">'. $blogname .'</a>';
 		} else if ($this->filters['doing_reports'] == "csv") {
-			return $blog->blogname;
+			return $blogname;
 		}
     }
 
 	function column_blog_url($item) {
-		$blog = get_blog_details($item->blog_id);
-		return $blog->siteurl;
+		if (is_multisite()) {
+			$blog = get_blog_details($item->blog_id);
+			if ($blog) {
+				$siteurl = $blog->siteurl;	
+			}	
+		} else {
+			$siteurl = get_option('siteurl');
+		}
+		return $siteurl;
 	}
 
 	function column_author( $comment ) {
@@ -267,6 +304,7 @@ class User_Reports_Comments_List_Table extends WP_List_Table {
 //	}
 
 	function column_comment_date($item) {
+		//echo "comment_date_stamp=[". $comment_date_stamp ."]<br />";
 		$format = 'Y/m/d h:i:s' ;						
 		return date_i18n($format, $item->comment_date_stamp + ( get_option( 'gmt_offset' ) * 3600));
 	}
@@ -280,20 +318,26 @@ class User_Reports_Comments_List_Table extends WP_List_Table {
         $columns = array();
 	
 		if (!isset($this->filters['doing_reports'])) {
-			$columns['blog']			= 	__('Blog', 				USER_REPORTS_I18N_DOMAIN);
+			if (UserReports::has_comment_indexer_plugin())
+				$columns['blog']			= 	__('Blog', 				USER_REPORTS_I18N_DOMAIN);
+				
 			$columns['author']			=	__('Author', 			USER_REPORTS_I18N_DOMAIN);
 			$columns['comment']			=	__('Comment', 			USER_REPORTS_I18N_DOMAIN);
             $columns['post_title']  	= 	__('In Response To', 	USER_REPORTS_I18N_DOMAIN);
 
 		} else if ($this->filters['doing_reports'] == "pdf") {
-			$columns['blog']			= 	__('Blog', 				USER_REPORTS_I18N_DOMAIN);
+			if (UserReports::has_comment_indexer_plugin())
+				$columns['blog']			= 	__('Blog', 				USER_REPORTS_I18N_DOMAIN);
+				
 			$columns['author']			=	__('Author', 			USER_REPORTS_I18N_DOMAIN);
 			$columns['comment']			=	__('Comment', 			USER_REPORTS_I18N_DOMAIN);
             $columns['post_title']  	= 	__('In Response To', 	USER_REPORTS_I18N_DOMAIN);
 
 		} else if ($this->filters['doing_reports'] == "csv") {
 
-            $columns['blog']			= 	__('Blog', 			USER_REPORTS_I18N_DOMAIN);
+			if (UserReports::has_comment_indexer_plugin())
+            	$columns['blog']			= 	__('Blog', 			USER_REPORTS_I18N_DOMAIN);
+
             $columns['blog_url']		= 	__('Blog Url', 		USER_REPORTS_I18N_DOMAIN);
 			$columns['author']			=	__('Author', 		USER_REPORTS_I18N_DOMAIN);
 			$columns['login']			=	__('Author Login', 	USER_REPORTS_I18N_DOMAIN);
@@ -454,89 +498,173 @@ class User_Reports_Comments_List_Table extends WP_List_Table {
         $hidden = array();
         $sortable = $this->get_sortable_columns();
 
-		$orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'c.comment_date_stamp'; //If no sort, default to title
-		$order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'desc'; 	//If no order, default to asc
-
-		if ($orderby == "user_id")
-			$orderby = "c.comment_author_user_id";
-		if ($orderby == "date")
-			$orderby = "c.comment_date_stamp";
-
         $this->_column_headers = array($columns, $hidden, $sortable);
 
-		$select_query_str 	= "SELECT 
-			c.blog_id as blog_id, 
-			c.site_id as site_id, 
-			c.comment_id as comment_id, 
-			c.comment_post_id as comment_post_id, 
-			c.comment_author_user_id as comment_author_user_id, 
-			c.comment_author_url as comment_author_url, 
-			c.comment_author_email as comment_author_email,
-			c.comment_author_IP as comment_author_IP, 
-			c.comment_approved as comment_approved,
-			c.comment_content as comment_content,
-			c.comment_date_stamp as comment_date_stamp, 
-			c.comment_post_permalink as comment_post_permalink,
-			p.post_title as post_title ";
+		if (UserReports::has_comment_indexer_plugin()) {
 
-		$select_query_str_count = "SELECT SQL_CALC_FOUND_ROWS count(*) as count ";
+			$orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'c.comment_date_stamp'; //If no sort, default to title
+			$order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'desc'; 	//If no order, default to asc
 
-		$tables_query_str = " FROM ". $wpdb->base_prefix . "site_comments c INNER JOIN ". 
-			$wpdb->base_prefix ."site_posts p ON c.comment_post_id=p.post_id ";
+			if ($orderby == "user_id")
+				$orderby = "c.comment_author_user_id";
+			if ($orderby == "date")
+				$orderby = "c.comment_date_stamp";
+
+			$select_query_str 	= "SELECT 
+				c.blog_id as blog_id, 
+				c.site_id as site_id, 
+				c.comment_id as comment_id, 
+				c.comment_post_id as comment_post_id, 
+				c.comment_author_user_id as comment_author_user_id, 
+				c.comment_author_url as comment_author_url, 
+				c.comment_author_email as comment_author_email,
+				c.comment_author_IP as comment_author_IP, 
+				c.comment_approved as comment_approved,
+				c.comment_content as comment_content,
+				c.comment_date_stamp as comment_date_stamp, 
+				c.comment_post_permalink as comment_post_permalink,
+				p.post_title as post_title ";
+
+			$select_query_str_count = "SELECT SQL_CALC_FOUND_ROWS count(*) as count ";
+
+			$tables_query_str = " FROM ". $wpdb->base_prefix . "site_comments c INNER JOIN ". 
+				$wpdb->base_prefix ."site_posts p ON c.comment_post_id=p.post_id ";
 			
-		$where_query_str 	= "WHERE 1";
+			$where_query_str 	= "WHERE 1";
 
-		if ((isset($filters['user_id'])) && (intval($filters['user_id']))) {
-			$where_query_str .= " AND c.comment_author_user_id=". $filters['user_id'] ." ";
-		} else if ( (isset($filters['blog_users_ids'])) && (count($filters['blog_users_ids'])) ) {
-			$where_query_str .= " AND c.comment_author_user_id IN (". implode(',', $filters['blog_users_ids']) .") ";
-		} else {
-			$where_query_str .= " AND c.comment_author_user_id=". $this->current_user_id ." ";
-		}
-
-		if (intval($filters['blog_id']) > 0) {
-			$where_query_str .= " AND c.blog_id=". intval($filters['blog_id']) ." ";
-		} else if (!is_super_admin($this->current_user_id)) {
-			$blogs = get_blogs_of_user( $this->current_user_id, false );
-			if ($blogs) {
-				//echo "blogs<pre>"; print_r($blogs); echo "</pre>";			
-				$where_query_str .= " AND c.blog_id IN (". implode(',', array_keys($blogs)) .") ";
+			if ((isset($filters['user_id'])) && (intval($filters['user_id']))) {
+				$where_query_str .= " AND c.comment_author_user_id=". $filters['user_id'] ." ";
+			} else if ( (isset($filters['blog_users_ids'])) && (count($filters['blog_users_ids'])) ) {
+				$where_query_str .= " AND c.comment_author_user_id IN (". implode(',', $filters['blog_users_ids']) .") ";
+			} else {
+				$where_query_str .= " AND c.comment_author_user_id=". $this->current_user_id ." ";
 			}
-		} 
 
-		if ( (isset($filters['date_start'])) && (strlen($filters['date_start'])) 
-		  && (isset($filters['date_end'])) && (strlen($filters['date_end'])) ) {
-			$where_query_str .= " AND (c.comment_date_stamp between ". $filters['date_start'] ." AND ". $filters['date_end'] .") ";
-		}
+			if (intval($filters['blog_id']) > 0) {
+				$where_query_str .= " AND c.blog_id=". intval($filters['blog_id']) ." ";
+			} else if (!is_super_admin($this->current_user_id)) {
+				$blogs = get_blogs_of_user( $this->current_user_id, false );
+				if ($blogs) {
+					//echo "blogs<pre>"; print_r($blogs); echo "</pre>";			
+					$where_query_str .= " AND c.blog_id IN (". implode(',', array_keys($blogs)) .") ";
+				}
+			} 
 
-		$orderby_query_str 	= "ORDER BY ". $orderby ." ". $order;
+			if ( (isset($filters['date_start'])) && (strlen($filters['date_start'])) 
+			  && (isset($filters['date_end'])) && (strlen($filters['date_end'])) ) {
+				$where_query_str .= " AND (c.comment_date_stamp between ". $filters['date_start'] ." AND ". $filters['date_end'] .") ";
+			}
 
-		$query_str_count = $select_query_str_count ." ". $tables_query_str ." ". $where_query_str;
-		$post_items_total = $wpdb->get_row($query_str_count);
-		if ($post_items_total) {
-			$total_items = $post_items_total->count;
-		}
+			$orderby_query_str 	= "ORDER BY ". $orderby ." ". $order;
+
+			$query_str_count = $select_query_str_count ." ". $tables_query_str ." ". $where_query_str;
+			$post_items_total = $wpdb->get_row($query_str_count);
+			if ($post_items_total) {
+				$total_items = $post_items_total->count;
+			}
 		
-		if (!isset($this->filters['doing_reports'])) {
-			$limit_query_str 	= " LIMIT ". ($current_page-1)*$per_page .",". $per_page;
-		} else {
-			$limit_query_str	= "";
-		}
+			if (!isset($this->filters['doing_reports'])) {
+				$limit_query_str 	= " LIMIT ". ($current_page-1)*$per_page .",". $per_page;
+			} else {
+				$limit_query_str	= "";
+			}
 				
-		$query_str = $select_query_str ." ". $tables_query_str ." ". $where_query_str ." ". $orderby_query_str ." ". $limit_query_str;
-		//echo "query_str=[". $query_str ."]<br />";
-		$post_items = $wpdb->get_results($query_str);
-		if ($post_items) {
-			$this->items = $post_items;
-		}
+			$query_str = $select_query_str ." ". $tables_query_str ." ". $where_query_str ." ". $orderby_query_str ." ". $limit_query_str;
+			//echo "query_str=[". $query_str ."]<br />";
+			$post_items = $wpdb->get_results($query_str);
+			if ($post_items) {
+				$this->items = $post_items;
+			}
 
-		if (!isset($this->filters['doing_reports'])) {
-			$this->set_pagination_args( array(
-				'total_items' => intval($total_items),                  //WE have to calculate the total number of items
-				'per_page'    => intval($per_page),                     //WE have to determine how many items to show on a page
-				'total_pages' => ceil(intval($total_items)/intval($per_page))   //WE have to calculate the total number of pages
-				) 
-			);
+			if (!isset($this->filters['doing_reports'])) {
+				$this->set_pagination_args( array(
+					'total_items' => intval($total_items),                  //WE have to calculate the total number of items
+					'per_page'    => intval($per_page),                     //WE have to determine how many items to show on a page
+					'total_pages' => ceil(intval($total_items)/intval($per_page))   //WE have to calculate the total number of pages
+					) 
+				);
+			}
+		} else {
+			
+			$orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'c.comment_date'; //If no sort, default to title
+			$order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'desc'; 	//If no order, default to asc
+			if ($orderby == "user_id")
+				$orderby = "c.comment_author";
+			if ($orderby == "date")
+				$orderby = "c.comment_date";
+			
+			$select_query_str 	= "SELECT 
+				c.comment_ID as comment_id, 
+				c.comment_post_ID as comment_post_id, 
+				c.user_id as comment_author_user_id, 
+				c.comment_author_url as comment_author_url, 
+				c.comment_author_email as comment_author_email,
+				c.comment_author_IP as comment_author_IP, 
+				c.comment_approved as comment_approved,
+				c.comment_content as comment_content,
+				c.comment_date_gmt as comment_date_stamp";
+
+			$select_query_str_count = "SELECT SQL_CALC_FOUND_ROWS count(*) as count ";
+			$tables_query_str = " FROM ". $wpdb->prefix . "comments c INNER JOIN ". 
+				$wpdb->prefix ."posts p ON c.comment_post_id=p.ID ";
+			
+			$where_query_str 	= "WHERE 1";
+
+			if ((isset($filters['user_id'])) && (intval($filters['user_id']))) {
+				$where_query_str .= " AND c.user_id=". $filters['user_id'] ." ";
+			} else if ( (isset($filters['blog_users_ids'])) && (count($filters['blog_users_ids'])) ) {
+				$where_query_str .= " AND c.user_id IN (". implode(',', $filters['blog_users_ids']) .") ";
+			} else {
+				$where_query_str .= " AND c.user_id=". $this->current_user_id ." ";
+			}
+
+			if ( (isset($filters['date_start'])) && (strlen($filters['date_start'])) 
+			  && (isset($filters['date_end'])) && (strlen($filters['date_end'])) ) {
+				$where_query_str .= " AND (c.comment_date BETWEEN '". date('Y-m-d H:i:s', $filters['date_start']) .
+					"' AND '". date('Y-m-d H:i:s', $filters['date_end']) ."') ";
+			}
+
+			$orderby_query_str 	= "ORDER BY ". $orderby ." ". $order;
+
+			$query_str_count = $select_query_str_count ." ". $tables_query_str ." ". $where_query_str;
+			$post_items_total = $wpdb->get_row($query_str_count);
+			if ($post_items_total) {
+				$total_items = $post_items_total->count;
+			}
+		
+			if (!isset($this->filters['doing_reports'])) {
+				$limit_query_str 	= " LIMIT ". ($current_page-1)*$per_page .",". $per_page;
+			} else {
+				$limit_query_str	= "";
+			}
+				
+			$query_str = $select_query_str ." ". $tables_query_str ." ". $where_query_str ." ". $orderby_query_str ." ". $limit_query_str;
+			//echo "query_str=[". $query_str ."]<br />";
+			$post_items = $wpdb->get_results($query_str);
+			if ($post_items) {
+				if ((isset($post_items)) && (count($post_items))) {
+					foreach($post_items as $_key => $post_item) {
+
+						$post_item->blog_id					= $wpdb->blogid;
+						$post_item->site_id					= $wpdb->siteid;
+						$post_item->comment_post_permalink 	= get_permalink( $post_item->comment_post_id );
+						$post_item->post_title				= get_the_title( $post_item->comment_post_id );
+						$post_item->comment_date_stamp		= strtotime($post_item->comment_date_stamp);
+								
+						$post_query->posts[$_key] = $post_item;
+					}
+					$this->items = $post_items;
+
+					if (!isset($this->filters['doing_reports'])) {
+						$this->set_pagination_args( array(
+							'total_items' => intval($total_items),                  //WE have to calculate the total number of items
+							'per_page'    => intval($per_page),                     //WE have to determine how many items to show on a page
+							'total_pages' => ceil(intval($total_items)/intval($per_page))   //WE have to calculate the total number of pages
+							) 
+						);
+					}
+				}
+			}
 		}
     }
 }

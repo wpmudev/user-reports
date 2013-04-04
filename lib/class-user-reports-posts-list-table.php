@@ -493,7 +493,7 @@ if(!class_exists('User_Reports_Posts_List_Table')){
 						remove_filter( 'posts_where', array(&$this,'filter_posts_where') );
 					}
 
-					echo "post_query<pre>"; print_r($post_query); echo "</pre>";
+					//echo "post_query<pre>"; print_r($post_query); echo "</pre>";
 					if ((isset($post_query->posts)) && (count($post_query->posts))) {
 						foreach($post_query->posts as $_key => $post_item) {
 

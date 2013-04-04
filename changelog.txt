@@ -1,6 +1,10 @@
 Plugin Name: User Reports
 Author: Paul Menard (Incsub)
 
+1.0.3 - 2013-04-04
+----------------------------------------------------------------------
+- Fixed debug output bug. 
+
 1.0.2 - 2012-11-13
 ----------------------------------------------------------------------
 - Added support for upcoming Post Indexer 3

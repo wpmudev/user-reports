@@ -4,7 +4,7 @@ Plugin Name: User Reports
 Plugin URI: http://premium.wpmudev.org/project/user-reports
 Description: A report tool to show user Post and Comment activity for a single site or across a network. Uses data collected by Post Indexer and Comment Indexer plugins.
 Author: Paul Menard (Incsub)
-Version: 1.0.3
+Version: 1.0.3.1
 Author URI: http://premium.wpmudev.org/
 WDP ID: 679162
 Text Domain: user-reports
@@ -32,8 +32,6 @@ if (!defined('USER_REPORTS_I18N_DOMAIN'))
 
 require_once( dirname(__FILE__) . '/lib/class-user-reports-posts-list-table.php');
 require_once( dirname(__FILE__) . '/lib/class-user-reports-comments-list-table.php');
-
-include_once( dirname(__FILE__) . '/lib/dash-notices/wpmudev-dash-notification.php');
 
 class UserReports {
 		
@@ -83,6 +81,11 @@ class UserReports {
 		$this->_settings['options_key']				= "user-report-". $this->_settings['VERSION']; 
 		
 		$this->_admin_header_error 					= "";		
+		
+		// Add support for new WPMUDEV Dashboard Notices
+		global $wpmudev_notices;
+		$wpmudev_notices[] = array( 'id'=> 679162, 'name'=> 'User Reports', 'screens' => array( 'users_page_user-reports-network' ) );
+		include_once( dirname(__FILE__) . '/lib/dash-notices/wpmudev-dash-notification.php');
 		
 		add_action('admin_notices', array(&$this, 'user_reports_admin_notices_proc') );
 		add_action('network_admin_notices', array(&$this, 'user_reports_admin_notices_proc') );

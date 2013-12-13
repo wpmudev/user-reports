@@ -1,6 +1,11 @@
 Plugin Name: User Reports
 Author: Paul Menard (Incsub)
 
+1.0.3.1 - 2013-12-13
+----------------------------------------------------------------------
+- Update WPMU DEV Dashboard library
+- Test for WordPress 3.8
+
 1.0.3 - 2013-04-04
 ----------------------------------------------------------------------
 - Fixed debug output bug. 

@@ -1,6 +1,11 @@
 Plugin Name: User Reports
 Author: Paul Menard (Incsub)
 
+1.0.3.2 - 2014-04-26
+----------------------------------------------------------------------
+- Corrected reported issue where date filtering was not working.
+- WordPress 3.9 testing 
+
 1.0.3.1 - 2013-12-13
 ----------------------------------------------------------------------
 - Update WPMU DEV Dashboard library

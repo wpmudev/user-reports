@@ -319,12 +319,15 @@ if(!class_exists('User_Reports_Posts_List_Table')){
 		 */
 		function filter_posts_where( $where_query_str = '' ) {
 
+			//echo "where_query_str[". $where_query_str ."]<br />";
+			
 			if ( (isset($this->filters['date_start'])) && (strlen($this->filters['date_start'])) 
 			  && (isset($this->filters['date_end'])) && (strlen($this->filters['date_end'])) ) {
 
 				$where_query_str .= " AND (post_date BETWEEN '". date('Y-m-d H:i:s', $this->filters['date_start']) .
 					"' AND '". date('Y-m-d H:i:s', $this->filters['date_end']) ."') ";
 			}
+			//echo "where_query_str[". $where_query_str ."]<br />";
 			return $where_query_str;
 		}
 		
@@ -475,22 +478,44 @@ if(!class_exists('User_Reports_Posts_List_Table')){
 							$post_query_args['author'] = $this->current_user_id;
 						} 
 					}
-
-					//echo "post_query_args<pre>"; print_r($post_query_args); echo "</pre>";
+					
+					//echo "filters<pre>"; print_r($this->filters); echo "</pre>";
 					
 					if ( (isset($this->filters['date_start'])) && (strlen($this->filters['date_start'])) 
 					  && (isset($this->filters['date_end'])) && (strlen($this->filters['date_end'])) ) {
-						add_filter( 'posts_where', array(&$this,'filter_posts_where') );
+						  
+						  /*
+						  $post_query_args['date_query'] = array(
+							  array(
+								  'after'     => array(
+									  'year'  => date('Y', $this->filters['date_start']),
+									  'month' => date('n', $this->filters['date_start']),
+									  'day'   => date('j', $this->filters['date_start']),
+								  ),
+								  'before'    => array(
+									  'year'  => date('Y', $this->filters['date_end']),
+									  'month' => date('n', $this->filters['date_end']),
+									  'day'   => date('j', $this->filters['date_end']),
+								  ),
+								  'inclusive' => true,
+							  ),
+						  );
+						  */
+						  
+						add_filter( 'network_posts_where', array(&$this,'filter_posts_where') );
 					}
+
+					//echo "post_query_args<pre>"; print_r($post_query_args); echo "</pre>";
 					
 					$current_error_reporting = error_reporting();
 					error_reporting(0);
 					$post_query = new Network_Query($post_query_args);
+					//echo "post_query<pre>"; print_r($post_query); echo "</pre>";
 					error_reporting($current_error_reporting);
 
 					if ( (isset($this->filters['date_start'])) && (strlen($this->filters['date_start'])) 
 					  && (isset($this->filters['date_end'])) && (strlen($this->filters['date_end'])) ) {
-						remove_filter( 'posts_where', array(&$this,'filter_posts_where') );
+						remove_filter( 'network_posts_where', array(&$this,'filter_posts_where') );
 					}
 
 					//echo "post_query<pre>"; print_r($post_query); echo "</pre>";
@@ -550,7 +575,7 @@ if(!class_exists('User_Reports_Posts_List_Table')){
 				
 				if ( (isset($this->filters['date_start'])) && (strlen($this->filters['date_start'])) 
 				  && (isset($this->filters['date_end'])) && (strlen($this->filters['date_end'])) ) {
-					add_filter( 'posts_where', array(&$this,'filter_posts_where') );
+					add_filter( 'network_posts_where', array(&$this,'filter_posts_where') );
 				}
 				
 				$current_error_reporting = error_reporting();
@@ -560,7 +585,7 @@ if(!class_exists('User_Reports_Posts_List_Table')){
 
 				if ( (isset($this->filters['date_start'])) && (strlen($this->filters['date_start'])) 
 				  && (isset($this->filters['date_end'])) && (strlen($this->filters['date_end'])) ) {
-					remove_filter( 'posts_where', array(&$this,'filter_posts_where') );
+					remove_filter( 'network_posts_where', array(&$this,'filter_posts_where') );
 				}
 				
 				//echo "post_query<pre>"; print_r($post_query); echo "</pre>";

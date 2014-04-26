@@ -3,8 +3,8 @@
 Plugin Name: User Reports
 Plugin URI: http://premium.wpmudev.org/project/user-reports
 Description: A report tool to show user Post and Comment activity for a single site or across a network. Uses data collected by Post Indexer and Comment Indexer plugins.
-Author: WPMU DEV
-Version: 1.0.3.1
+Author: Paul Menard (Incsub)
+Version: 1.0.3.2
 Author URI: http://premium.wpmudev.org/
 WDP ID: 679162
 Text Domain: user-reports
@@ -72,7 +72,7 @@ class UserReports {
 	 */
 	function __construct() {
 		
-		$this->_settings['VERSION'] 				= '1.0.2';
+		$this->_settings['VERSION'] 				= '1.0.3.2';
 		$this->_settings['MENU_URL'] 				= 'users.php?page=';
 		$this->_settings['PLUGIN_URL']				= WP_CONTENT_URL . "/plugins/". basename( dirname(__FILE__) );
 		$this->_settings['PLUGIN_BASE_DIR']			= dirname(__FILE__);

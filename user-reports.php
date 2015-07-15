@@ -463,9 +463,11 @@ class UserReports {
 							$href_str .= "&orderby=". esc_attr($_GET['orderby']);
 						if (isset($_GET['order']))
 							$href_str .= "&order=". esc_attr($_GET['order']);
+						if ( isset( $_GET['user_login' ] ) )
+							$href_str .= '&user_login=' . esc_attr( $_GET['user_login'] );
 						?>
 						<a class="button-secondary" href="<?php echo $href_str; ?>&amp;user-report-download=pdf"><?php _e("Download PDF",
-						 USER_REPORTS_I18N_DOMAIN); ?></a> <a class="button-secondary" href="<?php echo $href_str; ?>&amp;user-report-download=csv"><?php
+						 USER_REPORTS_I18N_DOMAIN); ?></a> <a class="button-secondary" href="<?php echo esc_url( $href_str ); ?>&amp;user-report-download=csv"><?php
 						 _e("Download CSV", USER_REPORTS_I18N_DOMAIN); ?></a>
 					<?php
 				}
@@ -522,6 +524,11 @@ class UserReports {
 			'fields'	=>	array('ID', 'display_name')
 		);
 
+		if ( ! empty( $_GET['user_login'] ) ) {
+			$user_args['search'] = $_GET['user_login'];
+			$user_args['search_columns'] = array( 'user_login' );
+		}
+
 		$this->_filters['blog_users'] = array();
 		$this->_filters['blog_users_ids'] = array();
 		$wp_user_search = new WP_User_Query( $user_args );
@@ -541,13 +548,7 @@ class UserReports {
 						$this->_filters['user_id'] = $userdata->ID;
 						$this->_filters['user_login'] = $userdata->user_login;
 					} else {
-						$this->_admin_header_error = __("Unknown user login:", USER_REPORTS_I18N_DOMAIN) ." ". esc_attr($_GET['user_login']); 
-						$userdata = wp_get_current_user();
-						//echo "userdata<pre>"; print_r($userdata); echo "</pre>";
-						if (($userdata) && (intval($userdata->ID))) {
-							$this->_filters['user_id'] = $userdata->ID;
-							$this->_filters['user_login'] = $userdata->user_login;
-						}					
+
 					}
 				} else {
 					$userdata = wp_get_current_user();
@@ -822,9 +823,10 @@ class UserReports {
 				<?php
 			}
 		} else {
+			$user_login = ! empty( $this->_filters['user_login'] ) ? $this->_filters['user_login'] : '';
 			?>
 			<label for="user-reports-filter-users"><?php _e('Users', USER_REPORTS_I18N_DOMAIN); ?>: </label>
-			<input type="text" id="user-reports-filter-users" name="user_login" value="<?php echo $this->_filters['user_login']; ?>" />
+			<input type="text" id="user-reports-filter-users" name="user_login" value="<?php echo esc_attr( $user_login  ); ?>" />
 			<?php			
 		}
 	}

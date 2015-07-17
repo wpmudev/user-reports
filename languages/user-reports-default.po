@@ -1,0 +1,242 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: User Reports\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-17 18:01+0200\n"
+"PO-Revision-Date: 2015-07-17 18:01+0200\n"
+"Last-Translator: Ignacio <igmoweb@gmail.com>\n"
+"Language-Team: WPMU DEV\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e;_n;_x;esc_attr_e;"
+"esc_attr__;esc_html_e;esc_html__;_ex\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.8.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../lib/class-user-reports-comments-list-table.php:52
+#: ../lib/class-user-reports-comments-list-table.php:157
+#: ../lib/class-user-reports-posts-list-table.php:41
+#: ../lib/class-user-reports-posts-list-table.php:78
+msgid "view"
+msgstr ""
+
+#: ../lib/class-user-reports-comments-list-table.php:87
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#: ../lib/class-user-reports-comments-list-table.php:94
+msgid "Submitted on"
+msgstr ""
+
+#: ../lib/class-user-reports-comments-list-table.php:116
+msgid "reply"
+msgstr ""
+
+#: ../lib/class-user-reports-comments-list-table.php:220
+#: ../lib/class-user-reports-comments-list-table.php:223
+msgid "Anonymous"
+msgstr ""
+
+#: ../lib/class-user-reports-comments-list-table.php:322
+#: ../lib/class-user-reports-comments-list-table.php:330
+#: ../lib/class-user-reports-comments-list-table.php:339
+#: ../lib/class-user-reports-posts-list-table.php:171
+#: ../lib/class-user-reports-posts-list-table.php:183
+#: ../lib/class-user-reports-posts-list-table.php:196
+msgid "Blog"
+msgstr ""
+
+#: ../lib/class-user-reports-comments-list-table.php:324
+#: ../lib/class-user-reports-comments-list-table.php:332
+#: ../lib/class-user-reports-comments-list-table.php:342
+#: ../lib/class-user-reports-posts-list-table.php:173
+#: ../lib/class-user-reports-posts-list-table.php:185
+msgid "Author"
+msgstr ""
+
+#: ../lib/class-user-reports-comments-list-table.php:325
+#: ../lib/class-user-reports-comments-list-table.php:333
+#: ../lib/class-user-reports-comments-list-table.php:344
+msgid "Comment"
+msgstr ""
+
+#: ../lib/class-user-reports-comments-list-table.php:326
+#: ../lib/class-user-reports-comments-list-table.php:334
+msgid "In Response To"
+msgstr ""
+
+#: ../lib/class-user-reports-comments-list-table.php:341
+#: ../lib/class-user-reports-posts-list-table.php:198
+msgid "Blog Url"
+msgstr ""
+
+#: ../lib/class-user-reports-comments-list-table.php:343
+#: ../lib/class-user-reports-posts-list-table.php:200
+msgid "Author Login"
+msgstr ""
+
+#: ../lib/class-user-reports-comments-list-table.php:345
+msgid "Comment Url"
+msgstr ""
+
+#: ../lib/class-user-reports-comments-list-table.php:346
+msgid "Comment Date"
+msgstr ""
+
+#: ../lib/class-user-reports-comments-list-table.php:347
+#: ../lib/class-user-reports-posts-list-table.php:174
+#: ../lib/class-user-reports-posts-list-table.php:186
+#: ../lib/class-user-reports-posts-list-table.php:201
+msgid "Post Title"
+msgstr ""
+
+#: ../lib/class-user-reports-comments-list-table.php:348
+#: ../lib/class-user-reports-posts-list-table.php:202
+msgid "Post Url"
+msgstr ""
+
+#: ../lib/class-user-reports-posts-list-table.php:130 ../user-reports.php:132
+#: ../user-reports.php:135 ../user-reports.php:156 ../user-reports.php:157
+#: ../user-reports.php:163 ../user-reports.php:164
+msgid "Reports"
+msgstr ""
+
+#: ../lib/class-user-reports-posts-list-table.php:179
+#: ../lib/class-user-reports-posts-list-table.php:191
+#: ../lib/class-user-reports-posts-list-table.php:207 ../user-reports.php:340
+msgid "Date"
+msgstr ""
+
+#: ../lib/class-user-reports-posts-list-table.php:199
+msgid "Author Name"
+msgstr ""
+
+#: ../user-reports.php:65 ../user-reports.php:428
+msgid "User Reports"
+msgstr ""
+
+#: ../user-reports.php:239
+msgid "Cheatin&#8217; uh?"
+msgstr ""
+
+#: ../user-reports.php:335
+msgid ""
+"The User Reports plugins lets you build reports of the activity of your "
+"users."
+msgstr ""
+
+#: ../user-reports.php:337 ../user-reports.php:716
+msgid "Report Type"
+msgstr ""
+
+#: ../user-reports.php:337
+msgid ""
+"From the Report main screen you can select the type or report: Posts or "
+"Comments"
+msgstr ""
+
+#: ../user-reports.php:338 ../user-reports.php:765
+msgid "Blogs"
+msgstr ""
+
+#: ../user-reports.php:338
+msgid ""
+"Select which blog to report on. Or you can generate a report for all Blogs. "
+"(Multisite SuperAdmin only)"
+msgstr ""
+
+#: ../user-reports.php:339 ../user-reports.php:798 ../user-reports.php:824
+msgid "Users"
+msgstr ""
+
+#: ../user-reports.php:339
+msgid ""
+"Select the User from the dropdown. If you are viewing reports from the "
+"network admin you can enter the username directly or select the user from "
+"the Users listing page first."
+msgstr ""
+
+#: ../user-reports.php:340
+msgid ""
+"Select a date range for your report. Note you will be limited to 90 days "
+"maximum between the start and finish dates."
+msgstr ""
+
+#: ../user-reports.php:343
+msgid "Export"
+msgstr ""
+
+#: ../user-reports.php:343
+msgid ""
+"Below the report table you can optionally select to export the report to PDF "
+"or CSV data."
+msgstr ""
+
+#: ../user-reports.php:350
+msgid "Overview"
+msgstr ""
+
+#: ../user-reports.php:410
+msgid "per Page"
+msgstr ""
+
+#: ../user-reports.php:432
+msgid "For Network level reporting User Reports requires "
+msgstr ""
+
+#: ../user-reports.php:432
+msgid "Post Indexer"
+msgstr ""
+
+#: ../user-reports.php:432
+msgid "Comment Indexer"
+msgstr ""
+
+#: ../user-reports.php:432
+msgid ""
+"plugins to be installed. User Report can be used at the Blog level where it "
+"will use local Posts and Comments data."
+msgstr ""
+
+#: ../user-reports.php:435
+msgid ""
+"To create a report, select the report type, blogs, users, and date range "
+"below. Set 'Users' to blank if you want to see all users stats."
+msgstr ""
+
+#: ../user-reports.php:466
+msgid "Download PDF"
+msgstr ""
+
+#: ../user-reports.php:467
+msgid "Download CSV"
+msgstr ""
+
+#: ../user-reports.php:675
+msgid "Create"
+msgstr ""
+
+#: ../user-reports.php:695
+msgid "Post"
+msgstr ""
+
+#: ../user-reports.php:706 ../user-reports.php:710
+msgid "Comments"
+msgstr ""
+
+#: ../user-reports.php:752 ../user-reports.php:759
+msgid "All Blogs"
+msgstr ""
+
+#: ../user-reports.php:760
+msgid "This Blog Only"
+msgstr ""
+
+#: ../user-reports.php:800
+msgid "All Users"
+msgstr ""

@@ -3,8 +3,8 @@
 Plugin Name: User Reports
 Plugin URI: http://premium.wpmudev.org/project/user-reports
 Description: A report tool to show user Post and Comment activity for a single site or across a network. Uses data collected by Post Indexer and Comment Indexer plugins.
-Author: Paul Menard (Incsub)
-Version: 1.0.3.2
+Author: WPMU DEV
+Version: 1.1
 Author URI: http://premium.wpmudev.org/
 WDP ID: 679162
 Text Domain: user-reports
@@ -43,21 +43,7 @@ class UserReports {
 	
 	private $_admin_panels;
 
-	private $_filters = array();	// Set during processfilters(). 
-
-
-	/**
-	 * The old-style PHP Class constructor. Used when an instance of this class 
- 	 * is needed. If used (PHP4) this function calls the PHP5 version of the constructor.
-	 *
-	 * @since 1.0.0
-	 * @param none
-	 * @return self
-	 */
-    function UserReports() {
-        __construct();
-    }
-
+	private $_filters = array();	// Set during processfilters().
 
 	/**
 	 * The PHP5 Class constructor. Used when an instance of this class is needed.
@@ -232,6 +218,10 @@ class UserReports {
 		{
 			?><div id='user-report-error' class='error'><p><?php echo $this->_admin_header_error; ?></p></div><?php
 		}
+	}
+
+	public function get_filters() {
+		return $this->_filters;
 	}
 	
 	
@@ -442,7 +432,7 @@ class UserReports {
 					?><p><?php echo  __('For Network level reporting User Reports requires ', USER_REPORTS_I18N_DOMAIN) .' <a target="_blank" href="http://premium.wpmudev.org/project/post-indexer/">'. __('Post Indexer', USER_REPORTS_I18N_DOMAIN) . '</a> and <a target="_blank" href="http://premium.wpmudev.org/project/comment-indexer/">'. __('Comment Indexer', USER_REPORTS_I18N_DOMAIN) .'</a> '. __('plugins to be installed. User Report can be used at the Blog level where it will use local Posts and Comments data.', USER_REPORTS_I18N_DOMAIN); ?></p><?php
 				} else {
 					?>
-					<p><?php _ex("To create a report, select the report type, blogs, users, and date range below.", 
+					<p><?php _ex("To create a report, select the report type, blogs, users, and date range below. Set 'Users' to blank if you want to see all users stats.",
 						'User Reports page description', USER_REPORTS_I18N_DOMAIN); ?></p>
 					<?php $this->user_reports_show_filter_form_bar(); ?>
 					<?php
@@ -463,12 +453,18 @@ class UserReports {
 							$href_str .= "&orderby=". esc_attr($_GET['orderby']);
 						if (isset($_GET['order']))
 							$href_str .= "&order=". esc_attr($_GET['order']);
-						if ( isset( $_GET['user_login' ] ) )
-							$href_str .= '&user_login=' . esc_attr( $_GET['user_login'] );
+						if ( ! empty( $this->_filters['user_login'] ) )
+							$href_str .= '&user_login=' . esc_attr( $this->_filters['user_login'] );
+						if ( ! empty( $this->_filters['user_id'] ) ) {
+							$user = get_userdata( $this->_filters['user_id'] );
+							if ( $user ) {
+								$href_str .= '&user_login=' . esc_attr( $user->user_login );
+							}
+						}
+
 						?>
-						<a class="button-secondary" href="<?php echo $href_str; ?>&amp;user-report-download=pdf"><?php _e("Download PDF",
-						 USER_REPORTS_I18N_DOMAIN); ?></a> <a class="button-secondary" href="<?php echo esc_url( $href_str ); ?>&amp;user-report-download=csv"><?php
-						 _e("Download CSV", USER_REPORTS_I18N_DOMAIN); ?></a>
+						<a class="button-secondary" href="<?php echo $href_str; ?>&amp;user-report-download=pdf"><?php _e("Download PDF", USER_REPORTS_I18N_DOMAIN); ?></a>
+						<a class="button-secondary" href="<?php echo esc_url( $href_str ); ?>&amp;user-report-download=csv"><?php _e("Download CSV", USER_REPORTS_I18N_DOMAIN); ?></a>
 					<?php
 				}
 			?>

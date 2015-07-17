@@ -164,10 +164,11 @@ if(!class_exists('User_Reports_Posts_List_Table')){
 		}
 
 	    function get_columns() {
+			global $user_reports;
 
 			$columns = array();
 			if (!isset($this->filters['doing_reports'])) {
-				if (UserReports::has_post_indexer_plugin())
+				if ($user_reports->has_post_indexer_plugin())
 	            	$columns['blog']		= 	__('Blog', 			USER_REPORTS_I18N_DOMAIN);
 	
 				$columns['user']		=	__('Author', 		USER_REPORTS_I18N_DOMAIN);
@@ -179,7 +180,7 @@ if(!class_exists('User_Reports_Posts_List_Table')){
 	            $columns['post_date']  	= 	__('Date', 			USER_REPORTS_I18N_DOMAIN);
 
 			} else if ($this->filters['doing_reports'] == "pdf") {
-				if (UserReports::has_post_indexer_plugin())
+				if ($user_reports->has_post_indexer_plugin())
 	            	$columns['blog']		= 	__('Blog', 			USER_REPORTS_I18N_DOMAIN);
 	
 				$columns['user']		=	__('Author', 		USER_REPORTS_I18N_DOMAIN);
@@ -331,10 +332,12 @@ if(!class_exists('User_Reports_Posts_List_Table')){
 			return $where_query_str;
 		}
 		
-	    function prepare_items($filters) {
+	    function prepare_items() {
 
 			global $wpdb, $user_reports;
-		
+
+		    $filters = $user_reports->get_filters();
+
 			$total_items = 0;
 		
 			$this->current_user_id = get_current_user_id();
@@ -376,7 +379,7 @@ if(!class_exists('User_Reports_Posts_List_Table')){
 
 			$all_items = array();
 
-			$post_indexer_plugin = UserReports::has_post_indexer_plugin();
+			$post_indexer_plugin = $user_reports->has_post_indexer_plugin();
 			if ((is_multisite()) && ($post_indexer_plugin)) {
 				
 				//echo "post_indexer_version=[". $post_indexer_version ."]<br />";

@@ -1,5 +1,11 @@
 Plugin Name: User Reports
-Author: Paul Menard (Incsub)
+Author: WPMU DEV
+
+1.1 - 2015-07-17
+----------------------------------------------------------------------
+- Reports can now display all users reports.
+- Fixed: CSV report was wrong when filtering by user.
+- Other minor fixes.
 
 1.0.3.2 - 2014-04-26
 ----------------------------------------------------------------------

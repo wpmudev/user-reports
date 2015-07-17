@@ -168,9 +168,11 @@ class User_Reports_Logins_List_Table extends WP_List_Table {
      * @uses $this->get_pagenum()
      * @uses $this->set_pagination_args()
      **************************************************************************/
-    function prepare_items($filters) {
+    function prepare_items() {
 
-		global $wpdb;
+		global $wpdb, $user_reports;
+
+        $filters = $user_reports->get_filters();
 		
         /**
          * First, lets decide how many records per page to show

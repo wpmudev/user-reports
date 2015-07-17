@@ -464,9 +464,11 @@ class User_Reports_Comments_List_Table extends WP_List_Table {
     }
 
 
-    function prepare_items($filters) {
+    function prepare_items() {
 
-		global $wpdb;
+		global $wpdb, $user_reports;
+
+	    $filters = $user_reports->get_filters();
 		
 		$total_items = 0;
 		

@@ -70,7 +70,7 @@ class Page_Cache {
   
   function __construct() { throw new Exception("Can not create instance of Page_Class.  Class is static."); }
 
-  private static function __query($sql) {
+  private static function _query($sql) {
     if ( !($res = pg_query(self::$__connection, $sql)) )
       throw new Exception(pg_last_error(self::$__connection));
     return $res;
